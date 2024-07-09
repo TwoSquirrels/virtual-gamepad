@@ -59,7 +59,7 @@ let angle, force;
 
 joystickManager
   .on("start,move", (event, data) => {
-    angle = data.angle?.radian ?? Math.PI / 4;
+    angle = data.angle?.radian ?? Math.PI / 2;
     force = data.force ?? 0;
   })
   .on("start", (_event, _data) => {
