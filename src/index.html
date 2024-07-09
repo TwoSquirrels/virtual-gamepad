@@ -7,7 +7,65 @@
     <title>Virtual Gamepad</title>
   </head>
   <body>
-    <div id="app"></div>
+    <main>
+      <div id="joystick-zone"></div>
+      <div id="buttons-zone">
+        <button type="button" class="button-a">A</button>
+        <button type="button" class="button-b">B</button>
+      </div>
+    </main>
+    <article>
+      <h1>Virtual Gamepad</h1>
+      <section>
+        <h2>Settings</h2>
+        <p>
+          <label for="host">Host:</label>
+          <input
+            type="text"
+            id="settings-host"
+            name="host"
+            placeholder="http://192.168.250.162"
+            value="http://localhost:3000"
+          />
+        </p>
+        <p>
+          <label for="interval">Joystick Request Intarval:</label>
+          <input
+            type="number"
+            id="settings-interval"
+            name="interval"
+            placeholder="200"
+            value="200"
+          />ms
+        </p>
+        <p>
+          <label for="buttons">Show buttons:</label>
+          <input
+            type="checkbox"
+            id="settings-buttons"
+            name="buttons"
+            checked
+          />
+        </p>
+      </section>
+      <section>
+        <h2>References</h2>
+        <p>
+          Joystick: send POST to <code>/joystick?p=aaff</code> (<code>aa</code>:
+          00~FF angle, <code>ff</code>: 00~FF force) at intervals.
+        </p>
+        <p>Buttons: send POST to <code>/a</code>, <code>/b</code>.</p>
+        <p>
+          More details:
+          <a
+            href="https://github.com/TwoSquirrels/virtual-gamepad#readme"
+            target="_blank"
+            rel="noopener noreferrer"
+            >TwoSquirrels/virtual-gamepad - GitHub</a
+          >
+        </p>
+      </section>
+    </article>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
