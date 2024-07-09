@@ -1,6 +1,6 @@
 :root {
   width: 0;
-  color: #ffffffcc;
+  color: #fffc;
 }
 
 .erase {
@@ -22,13 +22,12 @@ main {
   height: 100dvh;
   width: 100dvw;
   z-index: -1;
-  background-color: navy;
+  background-color: #339;
 }
 
 #joystick-zone {
   flex: 8;
   height: 100%;
-  background-color: #ffaaaa33;
 }
 
 #buttons-zone {
@@ -50,18 +49,30 @@ main {
   opacity: 0.75;
 }
 
+.button-a {
+  background-color: #f33;
+}
+
+.button-b {
+  background-color: #3f3;
+}
+
 article {
   margin: 0.5em;
   padding: 0.5em;
-  max-height: 50dvh;
+  max-height: min(24em, calc(100dvh - 240px));
   width: 50dvw;
   overflow: scroll;
   font-size: max(0.75rem, 2dvmin);
-  background-color: #55555555;
+  background-color: #5559;
 }
 
 article * {
   margin: 0;
+}
+
+article a {
+  color: #fcc;
 }
 
 article h1 {
@@ -79,5 +90,5 @@ article input[type="checkbox"] {
 
 article code {
   padding: 0.25em;
-  background: #333355;
+  background: #335;
 }
