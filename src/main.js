@@ -1,5 +1,4 @@
 import nipplejs from "nipplejs";
-import "sanitize.css";
 import "./style.css";
 
 const elms = {
