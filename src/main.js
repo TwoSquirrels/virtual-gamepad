@@ -2,17 +2,31 @@ import nipplejs from "nipplejs";
 import "./style.css";
 
 const elms = {
-  body: document.querySelector("body"),
-  main: {
-    joystickZone: document.querySelector("#joystick-zone"),
-    buttonsZone: document.querySelector("#buttons-zone"),
-  },
+  hamburgers: [...document.querySelectorAll(".hamburger")],
+  burgerIcons: [...document.querySelectorAll(".hamburger > span")],
+  articles: [...document.querySelectorAll("article")],
   settings: {
     host: document.querySelector("#settings-host"),
     interval: document.querySelector("#settings-interval"),
     buttons: document.querySelector("#settings-buttons"),
   },
+  body: document.querySelector("body"),
+  main: {
+    joystickZone: document.querySelector("#joystick-zone"),
+    buttonsZone: document.querySelector("#buttons-zone"),
+  },
 };
+
+/// hamburgers
+
+for (const burger of elms.hamburgers) {
+  burger.onclick = () => {
+    for (const article of elms.articles) article.classList.toggle("hide-left");
+    for (const icon of elms.burgerIcons) icon.classList.toggle("erase");
+  };
+}
+
+/// poster
 
 let host = "http://localhost";
 let interval = 125;

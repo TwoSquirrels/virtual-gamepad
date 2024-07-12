@@ -16,6 +16,67 @@
   opacity: 0;
 }
 
+/* hamburger */
+
+.hamburger {
+  position: absolute;
+  padding: 0;
+  height: 4rem;
+  width: 4rem;
+  z-index: 1;
+  font-size: 3rem;
+  box-shadow: 0 0 0.5em 0.25em #5555;
+}
+
+/* article */
+
+article {
+  position: relative;
+  left: 0;
+  padding: 1em;
+  height: 100dvh;
+  width: 50dvw;
+  overflow: auto;
+  background-color: #5559;
+  box-shadow: 0 0 0.5rem 0.25rem #5553;
+  transition: left 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+article.hide-left {
+  left: -50dvw;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+article * {
+  margin: 0;
+}
+
+article a {
+  color: #fcc;
+}
+
+article h1 {
+  margin: 0.2em 0;
+  margin-left: 4rem;
+}
+
+article h2 {
+  margin: 0.1em 0;
+}
+
+article input[type="checkbox"] {
+  height: 1.5em;
+  width: 1.5em;
+}
+
+article code {
+  padding: 0.25em;
+  background: #335;
+}
+
+/* gamepad */
+
 main {
   position: absolute;
   display: flex;
@@ -53,44 +114,10 @@ main {
 
 .button-a {
   background-color: #f33;
+  box-shadow: 0 0 0.5rem 0.25rem #f335;
 }
 
 .button-b {
   background-color: #3f3;
-}
-
-article {
-  margin: 0.5em;
-  padding: 0.5em;
-  max-height: min(24em, calc(100dvh - 240px));
-  width: 50dvw;
-  overflow: scroll;
-  font-size: max(0.75rem, 2dvmin);
-  background-color: #5559;
-}
-
-article * {
-  margin: 0;
-}
-
-article a {
-  color: #fcc;
-}
-
-article h1 {
-  margin: 0.2em 0.1em;
-}
-
-article h2 {
-  margin: 0.1em 0;
-}
-
-article input[type="checkbox"] {
-  height: 1.5em;
-  width: 1.5em;
-}
-
-article code {
-  padding: 0.25em;
-  background: #335;
+  box-shadow: 0 0 0.5rem 0.25rem #3f35;
 }
