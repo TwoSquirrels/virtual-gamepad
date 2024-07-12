@@ -1,6 +1,8 @@
 import nipplejs from "nipplejs";
 import "./style.css";
 
+const params = new URLSearchParams(window.location.search);
+
 const elms = {
   hamburgers: [...document.querySelectorAll(".hamburger")],
   burgerIcons: [...document.querySelectorAll(".hamburger > span")],
@@ -28,8 +30,8 @@ for (const burger of elms.hamburgers) {
 
 /// poster
 
-let host = "http://localhost";
-let interval = 125;
+let host = params.get("host") ?? "http://localhost:3000";
+let interval = Number(params.get("interval")) || 125;
 let showButtons = true;
 
 const joystickPoster = {
@@ -82,16 +84,19 @@ const joystickPoster = {
 
 /// settings
 
+elms.settings.host.value = host;
 elms.settings.host.oninput = ({ target: input }) => {
   console.log(`Modify host ${host} -> ${input.value}`);
   host = input.value;
 };
 
+elms.settings.interval.value = interval;
 elms.settings.interval.oninput = ({ target: input }) => {
   console.log(`Modify interval ${interval} -> ${input.value}`);
   interval = input.value;
 };
 
+elms.settings.buttons.checked = showButtons;
 elms.settings.buttons.oninput = ({ target: checkbox }) => {
   console.log(`Modify showButtons ${showButtons} -> ${checkbox.checked}`);
   showButtons = checkbox.checked;
