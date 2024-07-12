@@ -33,9 +33,9 @@
 article {
   position: relative;
   left: 0;
-  padding: 1em;
+  padding: 2em;
   height: 100dvh;
-  width: 50dvw;
+  width: clamp(50dvw, 30rem, 100dvw);
   overflow: auto;
   background-color: #5559;
   box-shadow: 0 0 0.5rem 0.25rem #5553;
@@ -43,13 +43,9 @@ article {
 }
 
 article.hide-left {
-  left: -50dvw;
+  left: clamp(-100dvw, -30rem, -50dvw);
   pointer-events: none;
   cursor: not-allowed;
-}
-
-article * {
-  margin: 0;
 }
 
 article a {
@@ -57,12 +53,18 @@ article a {
 }
 
 article h1 {
-  margin: 0.2em 0;
-  margin-left: 4rem;
+  text-align: center;
 }
 
 article h2 {
-  margin: 0.1em 0;
+  border-top: solid 1px;
+  padding-top: 1em;
+  text-align: center;
+}
+
+article h3 {
+  padding-left: 0.5em;
+  border-left: solid 0.25em;
 }
 
 article input[type="checkbox"] {
@@ -73,6 +75,14 @@ article input[type="checkbox"] {
 article code {
   padding: 0.25em;
   background: #335;
+}
+
+article footer {
+  position: sticky;
+  top: 100dvh;
+  border-top: solid 1px;
+  padding: 1em;
+  text-align: center;
 }
 
 /* gamepad */

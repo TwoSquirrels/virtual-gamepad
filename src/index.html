@@ -8,38 +8,117 @@
   </head>
   <body>
     <button type="button" class="hamburger"><span>&lt;</span><span class="erase">&gt;</span></button>
+
     <article>
       <h1>Virtual Gamepad</h1>
+
+      <p>A virtual controller for smartphones to operate microcontroller cars and more. (PCs are also supported)</p>
+      <p>
+        GitHub (Japanese README):
+        <a href="https://github.com/TwoSquirrels/virtual-gamepad#readme" target="_blank" rel="noopener noreferrer"
+          >TwoSquirrels/virtual-gamepad</a
+        >
+      </p>
+
       <section>
         <h2>Settings</h2>
+
         <p>
-          <label for="host">Host:</label>
-          <input type="text" id="settings-host" name="host" placeholder="http://192.168.250.162" />
+          <label for="settings-host">Host:</label>
+          <input type="text" id="settings-host" name="settings-host" placeholder="http://192.168.250.162" />
         </p>
         <p>
-          <label for="interval">Joystick Request Intarval:</label>
-          <input type="number" id="settings-interval" name="interval" placeholder="125" />ms
+          <label for="settings-interval">Joystick Request Intarval:</label>
+          <input type="number" id="settings-interval" name="settings-interval" placeholder="125" /> ms
         </p>
         <p>
-          <label for="buttons">Show buttons:</label>
-          <input type="checkbox" id="settings-buttons" name="buttons" />
+          <label for="settings-buttons">Show buttons:</label>
+          <input type="checkbox" id="settings-buttons" name="settings-buttons" />
         </p>
       </section>
+
       <section>
-        <h2>References</h2>
-        <p>
-          Joystick: send POST to <code>/joystick?p=aaff</code> (<code>aa</code>: 00~FF angle, <code>ff</code>: 00~FF
-          force) at intervals.
-        </p>
-        <p>Buttons: send POST to <code>/a</code>, <code>/b</code>.</p>
-        <p>
-          More details:
-          <a href="https://github.com/TwoSquirrels/virtual-gamepad#readme" target="_blank" rel="noopener noreferrer"
-            >TwoSquirrels/virtual-gamepad - GitHub</a
-          >
-        </p>
+        <h2>Usage</h2>
+
+        <h3>Server Side (Microcontroller, etc.)</h3>
+        <ol>
+          <li>
+            Run a program that can handle HTTP requests in the format of <a href="#protocol">the following protocol</a>.
+            (TODO: Sample using Arduino WiFi.h)
+          </li>
+          <li>Confirm that you can communicate with the target server.</li>
+        </ol>
+
+        <h3>Controller Side</h3>
+        <ol>
+          <li>Open the web page and enter the URL of the target server (microcontroller, etc.) in the host field.</li>
+          <li>Adjust the joystick transmission interval (default 125&nbsp;ms).</li>
+          <li>Hide the A, B buttons if you are not using them.</li>
+          <li>Close the settings screen and operate with swipe or WASD (+ Shift).</li>
+        </ol>
       </section>
+
+      <section>
+        <h2 id="protocol">Protocol</h2>
+
+        <p>
+          Unless you are hosting a clone of this site on the target server, you will generally need to add
+          <code>Access-Control-Allow-Origin: https://twosquirrels.github.io</code> to the response headers to avoid
+          errors.
+        </p>
+
+        <section>
+          <h3>POST <code>/joystick?p=aaff</code></h3>
+
+          <h4>Request</h4>
+          <p>
+            When the joystick is being operated or WASD is being used, the polar coordinates of the joystick are sent at
+            the set interval as a 4-digit hexadecimal string in the query.
+          </p>
+          <ul>
+            <li>
+              <code>aa</code>: A 2-digit hexadecimal string representing the angle <code>0 &le; θ &lt; 256</code>, with
+              the right direction as <code>0</code> and increasing counterclockwise, with a full circle being
+              <code>256</code>.
+            </li>
+            <li>
+              <code>ff</code>: A 2-digit hexadecimal string representing the radial distance
+              <code>0 &le; r &lt; 256</code>, with the center as <code>0</code> and the maximum stick limit as
+              <code>255</code> (for WASD operation, it becomes <code>7F</code> when Shift is pressed).
+            </li>
+          </ul>
+          <p>The body is always empty.</p>
+
+          <h4>Response</h4>
+          <p>Ignored, except for being displayed in the debug console.</p>
+        </section>
+
+        <section>
+          <h3>POST <code>/a</code>, <code>/b</code></h3>
+
+          <h4>Request</h4>
+          <p>
+            Sent to the path corresponding to the content of the button when the right-side button is pressed. The body
+            is always empty.
+          </p>
+
+          <h4>Response</h4>
+          <p>Ignored, except for being displayed in the debug console.</p>
+        </section>
+      </section>
+
+      <footer>
+        <small>
+          &copy; 2024 TwoSquirrels (<a
+            href="https://github.com/TwoSquirrels/virtual-gamepad/tree/main?tab=MIT-1-ov-file"
+            target="_blank"
+            rel="noopener noreferrer"
+            >MIT License</a
+          >)
+        </small>
+      </footer>
     </article>
+
     <main>
       <div id="joystick-zone"></div>
       <div id="buttons-zone">
@@ -47,6 +126,7 @@
         <button type="button" class="button-b">B</button>
       </div>
     </main>
+
     <script type="module" src="/main.js"></script>
   </body>
 </html>
