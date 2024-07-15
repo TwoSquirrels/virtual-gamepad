@@ -30,8 +30,8 @@ for (const burger of elms.hamburgers) {
 
 /// poster
 
-let host = params.get("host") ?? "http://localhost:3000";
-let interval = Number(params.get("interval")) || 125;
+let host = params.get("host") ?? window.location.origin;
+let interval = Number(params.get("interval")) || 100;
 let showButtons = true;
 
 const joystickPoster = {
@@ -85,12 +85,14 @@ const joystickPoster = {
 /// settings
 
 elms.settings.host.value = host;
+elms.settings.host.placeholder = host;
 elms.settings.host.oninput = ({ target: input }) => {
   console.log(`Modify host ${host} -> ${input.value}`);
   host = input.value;
 };
 
 elms.settings.interval.value = interval;
+elms.settings.interval.placeholder = interval;
 elms.settings.interval.oninput = ({ target: input }) => {
   console.log(`Modify interval ${interval} -> ${input.value}`);
   interval = input.value;

@@ -2,7 +2,7 @@
 
 マイコンカー操作などのための、スマホ用バーチャルコントローラーです。(もちろん PC も対応しています)
 
-<https://twosquirrels.github.io/virtual-gamepad/> から使用できますが、自分用に作ったので汎用性は低いかもしれません。気に入らない場合は Fork して改造してください。Pull Request 大歓迎です。
+<https://twosquirrels.github.io/virtual-gamepad/> から HTML をダウンロードできますが、自分用に作ったので汎用性は低いかもしれません。気に入らない場合は Fork して改造してください。Pull Request 大歓迎です。
 
 > [!TIP]  
 > ジョイスティック部分は [nippleJS](https://github.com/yoannmoinet/nipplejs) を使っています。  
@@ -17,20 +17,30 @@
 
 ### サーバー側 (マイコン等)
 
-1. [以下の規格](#Protocol) の形式の HTTP リクエストを処理できるプログラムを走らせます。(TODO: Arduino WiFi.h によるサンプル)
-2. 対象のサーバーと通信できるか確認します。
+1. [以下の規格](#Protocol) の形式の HTTP リクエストを処理できるプログラムを走らせます。([参考: M5Atom によるマイコンカーのサンプル](example/m5atom-car/))
+2. 対象のサーバーのアドレスを確認します。
 
 ### コントローラー側
 
-3. Web ページを開き、対象サーバー (マイコン等) の URL を host に入力します。
-4. ジョイスティックの送信間隔 (デフォルト $125~\mathrm{ms}$) を調整します。
+3. 対象サーバー (マイコン等) のアドレスをブラウザで開きます。
+4. ジョイスティックの送信間隔 (デフォルト $100~\mathrm{ms}$) を調整します。通信が詰まらない程度に小さくすることをおすすめします。
 5. A, B ボタンを使わない場合は隠します。
 6. 設定画面を閉じ、スワイプまたは WASD (+ Shift) で操作します。
 
 ## Protocol
 
 > [!WARNING]  
-> このサイトのクローンを対象サーバー上でホスティングする場合などを除き、基本的にレスポンスヘッダーに `Access-Control-Allow-Origin: https://twosquirrels.github.io` 等を加えないとエラーが出て上手く動作しない可能性があります。
+> github.io 上など HTTPS のページから HTTP のホストに対して通信をするとセキュリティエラーが出ます。これはブラウザの設定で対処することもできますが、API と同じホストで HTML を配信してそちらからページにアクセスすることを推奨します。
+
+### GET `/`
+
+#### Request
+
+基本的にブラウザからアクセスされます。
+
+#### Response
+
+ゲームパッドの HTML を返してください。HTML は <https://twosquirrels.github.io/virtual-gamepad/> から最新の物をダウンロードできるようにすることをおすすめします。
 
 ### POST `/joystick?p=aaff`
 
@@ -56,6 +66,11 @@ body は常に空です。
 #### Response
 
 デバッグコンソールに表示されることを除けば、無視されます。
+
+## Examples
+
+- [M5Atom によるマイコンカーのサンプル](example/m5atom-car/)
+- その他のサンプル募集中！
 
 ## Tech Stack
 

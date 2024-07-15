@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!--link rel="icon" type="image/svg+xml" href="/vite.svg" /-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Virtual Gamepad</title>
   </head>
@@ -25,11 +25,11 @@
 
         <p>
           <label for="settings-host">Host:</label>
-          <input type="text" id="settings-host" name="settings-host" placeholder="http://192.168.250.162" />
+          <input type="text" id="settings-host" name="settings-host" />
         </p>
         <p>
           <label for="settings-interval">Joystick Request Intarval:</label>
-          <input type="number" id="settings-interval" name="settings-interval" placeholder="125" /> ms
+          <input type="number" id="settings-interval" name="settings-interval" /> ms
         </p>
         <p>
           <label for="settings-buttons">Show buttons:</label>
@@ -44,15 +44,23 @@
         <ol>
           <li>
             Run a program that can handle HTTP requests in the format of <a href="#protocol">the following protocol</a>.
-            (TODO: Sample using Arduino WiFi.h)
+            (<a
+              href="https://github.com/TwoSquirrels/virtual-gamepad/tree/main/example/m5atom-car"
+              target="_blank"
+              rel="noopener noreferrer"
+              >An example microcomputer car with M5Atom</a
+            >)
           </li>
-          <li>Confirm that you can communicate with the target server.</li>
+          <li>Check the address of the target server.</li>
         </ol>
 
         <h3>Controller Side</h3>
         <ol>
-          <li>Open the web page and enter the URL of the target server (microcontroller, etc.) in the host field.</li>
-          <li>Adjust the joystick transmission interval (default 125&nbsp;ms).</li>
+          <li>Open the address of the target server (e.g., microcomputer) in your browser.</li>
+          <li>
+            Adjust the joystick transmission interval (default 100&nbsp;ms). It is recommended to keep it small enough
+            that it does not choke communication.
+          </li>
           <li>Hide the A, B buttons if you are not using them.</li>
           <li>Close the settings screen and operate with swipe or WASD (+ Shift).</li>
         </ol>
@@ -62,10 +70,20 @@
         <h2 id="protocol">Protocol</h2>
 
         <p>
-          Unless you are hosting a clone of this site on the target server, you will generally need to add
-          <code>Access-Control-Allow-Origin: https://twosquirrels.github.io</code> to the response headers to avoid
-          errors.
+          When communicating from an HTTPS page, such as on github.io, to an HTTP host, a security error occurs. This
+          can be handled by configuring the browser, but it is recommended to serve HTML on the same host as the API and
+          access the page from there.
         </p>
+
+        <section>
+          <h3>GET <code>/</code></h3>
+
+          <h4>Request</h4>
+          <p>Basically, it is accessed through a browser.</p>
+
+          <h4>Response</h4>
+          <p>Please return the gamepad HTML, we recommend that you download the latest HTML from this page.</p>
+        </section>
 
         <section>
           <h3>POST <code>/joystick?p=aaff</code></h3>

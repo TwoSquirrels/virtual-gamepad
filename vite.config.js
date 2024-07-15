@@ -1,3 +1,5 @@
+import { viteSingleFile } from "vite-plugin-singlefile";
+
 export default {
   base: process.env.GITHUB_PAGES ? "REPOSITORY_NAME" : "./",
   root: "./src",
@@ -6,4 +8,5 @@ export default {
     outDir: "../dist",
     emptyOutDir: true,
   },
+  plugins: [viteSingleFile()],
 };
