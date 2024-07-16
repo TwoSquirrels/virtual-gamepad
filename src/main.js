@@ -17,6 +17,10 @@ const elms = {
     joystickZone: document.querySelector("#joystick-zone"),
     buttonsZone: document.querySelector("#buttons-zone"),
   },
+  info: {
+    statuses: [...document.querySelectorAll(".status")],
+    pings: [...document.querySelectorAll(".ping")],
+  },
 };
 
 /// hamburgers
@@ -28,11 +32,32 @@ for (const burger of elms.hamburgers) {
   };
 }
 
+/// info
+
+function updateInfo(status, ping = Infinity) {
+  for (const statusElm of elms.info.statuses) statusElm.innerText = status;
+  for (const pingElm of elms.info.pings) pingElm.innerText = `ping: ${ping} ms`;
+}
+
+updateInfo("200 OK", Date.now() - window.performance.timing.navigationStart);
+
 /// poster
 
 let host = params.get("host") ?? window.location.origin;
 let interval = Number(params.get("interval")) || 100;
 let showButtons = true;
+
+async function callApi(method = "GET", path = "/", options = {}) {
+  const prevTime = window.performance.now();
+  try {
+    const res = await fetch(host + path, { method, ...options });
+    updateInfo(`${res.status} ${res.statusText}`, window.performance.now() - prevTime);
+    return res;
+  } catch (error) {
+    updateInfo(error.message.split(/\s+/)[0], window.performance.now() - prevTime);
+    throw error;
+  }
+}
 
 const joystickPoster = {
   _angle: Math.PI / 2,
@@ -54,14 +79,9 @@ const joystickPoster = {
 
   async post() {
     console.log("POST joystick", { angle: this.angle, force: this.force, query: this.query });
-    try {
-      const res = await fetch(`${host}/joystick?q=${this.query}`, { method: "POST" });
-      console.log("Responded joystick", await res.arrayBuffer(), await res.text());
-      return res;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
+    const res = await callApi("POST", "/joystick?q=" + this.query);
+    console.log("Responded joystick", await res.text());
+    return res;
   },
 
   intervalId: null,
@@ -131,8 +151,8 @@ for (const button of elms.main.buttonsZone.childNodes) {
   button.onclick = async ({ target: button }) => {
     const id = button.innerText.toLowerCase();
     console.log("POST button", id);
-    const res = await fetch(`${host}/${id}`, { method: "POST" });
-    console.log("Responded button", await res.arrayBuffer(), await res.text());
+    const res = await callApi("POST", "/" + id);
+    console.log("Responded button", await res.text());
   };
 }
 

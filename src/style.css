@@ -20,6 +20,8 @@
 
 .hamburger {
   position: absolute;
+  top: 0;
+  left: 0;
   padding: 0;
   height: 4rem;
   width: 4rem;
@@ -32,6 +34,7 @@
 
 article {
   position: relative;
+  top: 0;
   left: 0;
   padding: 2em;
   height: 100dvh;
@@ -130,4 +133,18 @@ main {
 .button-b {
   background-color: #3f3;
   box-shadow: 0 0 0.5rem 0.25rem #3f35;
+}
+
+/* info box */
+
+.info-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: .5em;
+  width: 50%;
+  z-index: -1;
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
 }
