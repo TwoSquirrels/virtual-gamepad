@@ -117,9 +117,9 @@ void loop() {
   prevTime = millis();
 
   if (moterRight >= 0.0) moterRight = max(moterRight - deltaTime / 1000.0, 0.0);
-  else moterRight = min(moterRight + deltaTime / 250.0, 0.0);
+  else moterRight = min(moterRight + deltaTime / 50.0, 0.0);
   if (moterLeft >= 0.0) moterLeft = max(moterLeft - deltaTime / 1000.0, 0.0);
-  else moterLeft = min(moterLeft + deltaTime / 250.0, 0.0);
+  else moterLeft = min(moterLeft + deltaTime / 50.0, 0.0);
 
   server.handleClient();
 
