@@ -13,8 +13,8 @@ const uint8_t PWM_res = 8;    // PWM 分解能 16bit(0～256).
 const uint8_t PWM_CH_A = 1;   // チャンネル.
 const uint8_t PWM_CH_B = 2;   // チャンネル.
 
-#if __has_include(".env.h")
-#  include ".env.h"
+#if __has_include("env.h")
+#  include "env.h"
 #else
 const char ssid[] = "YOUR_SSID";
 const char password[] = "YOUR_PASSWORD";
