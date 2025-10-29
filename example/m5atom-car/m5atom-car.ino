@@ -26,7 +26,7 @@ const char password[] = "YOUR_PASSWORD";
 const char index_html[] = "<html><body><h1>There is not index-html.h</h1></body></html>";
 #endif
 
-void updateMoters(double angle, double force);
+void updateMotors(double angle, double force);
 
 SimpleHTTPServer server(ssid, password);
 
@@ -58,7 +58,7 @@ void handlePostJoystick(WiFiClient& client, const String& query) {
   }
   const int angle = strtol(query.substring(2, 4).c_str(), NULL, 16);
   const int force = strtol(query.substring(4, 6).c_str(), NULL, 16);
-  updateMoters(angle * 360.0 / 256.0, force / 255.0);
+  updateMotors(angle * 360.0 / 256.0, force / 255.0);
   Serial.print("======== Joystick (angle=");
   Serial.print(angle);
   Serial.print(", force=");
@@ -108,7 +108,7 @@ void setup() {
   server.post("/b", handlePostB);
 }
 
-double moterRight = 0.0, moterLeft = 0.0;
+double motorRight = 0.0, motorLeft = 0.0;
 
 unsigned long prevTime = millis();
 
@@ -116,44 +116,44 @@ void loop() {
   const unsigned long deltaTime = millis() - prevTime;
   prevTime = millis();
 
-  if (moterRight >= 0.0) moterRight = max(moterRight - deltaTime / 1000.0, 0.0);
-  else moterRight = min(moterRight + deltaTime / 50.0, 0.0);
-  if (moterLeft >= 0.0) moterLeft = max(moterLeft - deltaTime / 1000.0, 0.0);
-  else moterLeft = min(moterLeft + deltaTime / 50.0, 0.0);
+  if (motorRight >= 0.0) motorRight = max(motorRight - deltaTime / 1000.0, 0.0);
+  else motorRight = min(motorRight + deltaTime / 50.0, 0.0);
+  if (motorLeft >= 0.0) motorLeft = max(motorLeft - deltaTime / 1000.0, 0.0);
+  else motorLeft = min(motorLeft + deltaTime / 50.0, 0.0);
 
   server.handleClient();
 
-  ledcWrite(PWM_CH_A, (uint16_t)(sqrt(max(0.0, moterRight)) * 255));
-  ledcWrite(PWM_CH_B, (uint16_t)(sqrt(max(0.0, moterLeft)) * 255));
+  ledcWrite(PWM_CH_A, (uint16_t)(sqrt(max(0.0, motorRight)) * 255));
+  ledcWrite(PWM_CH_B, (uint16_t)(sqrt(max(0.0, motorLeft)) * 255));
 
   M5.update();
 }
 
-void updateMoters(double angle, double force) {
+void updateMotors(double angle, double force) {
   if (angle < 15 || angle >= 345) {
-    moterRight = -0.5;
-    moterLeft = 0.5;
+    motorRight = -0.5;
+    motorLeft = 0.5;
   } else if (angle >= 165 && angle < 195) {
-    moterRight = 0.5;
-    moterLeft = -0.5;
+    motorRight = 0.5;
+    motorLeft = -0.5;
   } else if (angle < 90) {
-    moterRight = constrain(angle / 40 - 0.875, -0.5, 1.0);
-    moterLeft = constrain(angle / 40 + 0.125, 0.5, 1.0);
+    motorRight = constrain(angle / 40 - 0.875, -0.5, 1.0);
+    motorLeft = constrain(angle / 40 + 0.125, 0.5, 1.0);
   } else if (angle < 180) {
-    moterRight = constrain(-angle / 40 + 4.625, 0.5, 1.0);
-    moterLeft = constrain(-angle / 40 + 3.625, -0.5, 1.0);
+    motorRight = constrain(-angle / 40 + 4.625, 0.5, 1.0);
+    motorLeft = constrain(-angle / 40 + 3.625, -0.5, 1.0);
   } else if (angle < 270) {
-    //moterRight = constrain(-angle / 40 + 4.375, -1.0, -0.5);
-    //moterLeft = constrain(-angle / 40 + 5.375, -1.0, 0.5);
-    moterRight = angle < 255 ? 0.5 : -0.5;
-    moterLeft = -0.5;
+    //motorRight = constrain(-angle / 40 + 4.375, -1.0, -0.5);
+    //motorLeft = constrain(-angle / 40 + 5.375, -1.0, 0.5);
+    motorRight = angle < 255 ? 0.5 : -0.5;
+    motorLeft = -0.5;
   } else {
-    //moterRight = constrain(angle / 40 - 8.125, -1.0, 0.5);
-    //moterLeft = constrain(angle / 40 - 9.125, -1.0, -0.5);
-    moterRight = -0.5;
-    moterLeft = angle < 285 ? -0.5 : 0.5;
+    //motorRight = constrain(angle / 40 - 8.125, -1.0, 0.5);
+    //motorLeft = constrain(angle / 40 - 9.125, -1.0, -0.5);
+    motorRight = -0.5;
+    motorLeft = angle < 285 ? -0.5 : 0.5;
   }
 
-  moterRight *= force;
-  moterLeft *= force;
+  motorRight *= force;
+  motorLeft *= force;
 }
