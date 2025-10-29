@@ -23,7 +23,7 @@ const char password[] = "YOUR_PASSWORD";
 ## Structure
 
 `./SimpleHTTPServer.h` は ChatGPT で作った Arduino 用の簡易的な HTTP サーバーライブラリです。  
-`./m5atom-car.ino` ではジョイスティックのクエリからパラメータをパースし、`updateMoters` 関数でその値から左右のモーターの出力を設定しています。
+`./m5atom-car.ino` ではジョイスティックのクエリからパラメータをパースし、`updateMotors` 関数でその値から左右のモーターの出力を設定しています。
 
 > [!TIP]  
 > この例ではモーターの出力はかなり雑な計算式で設定しているので操作しにくいと思います。  
