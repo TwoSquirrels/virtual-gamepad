@@ -1,4 +1,5 @@
 import { viteSingleFile } from "vite-plugin-singlefile";
+import { createHtmlPlugin } from "vite-plugin-html";
 
 export default {
   base: process.env.GITHUB_PAGES ? "REPOSITORY_NAME" : "./",
@@ -7,6 +8,12 @@ export default {
   build: {
     outDir: "../dist",
     emptyOutDir: true,
+    minify: "terser",
   },
-  plugins: [viteSingleFile()],
+  plugins: [
+    viteSingleFile(),
+    createHtmlPlugin({
+      minify: true,
+    }),
+  ],
 };
