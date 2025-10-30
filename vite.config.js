@@ -10,9 +10,9 @@ export default {
     emptyOutDir: true,
   },
   plugins: [
+    viteSingleFile(),
     createHtmlPlugin({
       minify: true,
     }),
-    viteSingleFile(),
   ],
 };
