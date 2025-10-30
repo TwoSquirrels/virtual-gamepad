@@ -23,7 +23,8 @@ const char password[] = "YOUR_PASSWORD";
 #if __has_include("index-html.h")
 #  include "index-html.h"
 #else
-const char index_html[] = "<html><body><h1>There is not index-html.h</h1></body></html>";
+const unsigned char index_html_br[] = {0x00};  // Dummy data
+const size_t index_html_br_len = 0;
 #endif
 
 void updateMotors(double angle, double force);
@@ -33,8 +34,17 @@ SimpleHTTPServer server(ssid, password);
 void handleRoot(WiFiClient& client, const String& query) {
   client.println("HTTP/1.1 200 OK");
   client.println("Content-Type: text/html");
+  client.println("Content-Encoding: br");
+  client.print("Content-Length: ");
+  client.println(index_html_br_len);
   client.println();
-  client.println(index_html);
+  
+  // Send Brotli-compressed data in chunks
+  const size_t chunkSize = 512;
+  for (size_t i = 0; i < index_html_br_len; i += chunkSize) {
+    size_t len = min(chunkSize, index_html_br_len - i);
+    client.write(&index_html_br[i], len);
+  }
 }
 
 void respondOk(WiFiClient& client) {

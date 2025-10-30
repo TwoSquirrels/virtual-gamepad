@@ -1,11 +1,20 @@
-Invoke-WebRequest -Uri "https://twosquirrels.github.io/virtual-gamepad/" -OutFile "index.html"
+Invoke-WebRequest -Uri "https://twosquirrels.github.io/virtual-gamepad/index.html.br" -OutFile "index.html.br"
 
-$content = Get-Content -Raw -Path "index.html"
+$bytes = [System.IO.File]::ReadAllBytes("index.html.br")
+$hexArray = $bytes | ForEach-Object { "0x{0:x2}" -f $_ }
+$hexString = $hexArray -join ", "
+
 $output = @"
-const char index_html[] = R"***(
-$content
-)***";
+#include <stddef.h>
+
+// Brotli-compressed HTML data
+const unsigned char index_html_br[] = {
+$hexString
+};
+
+const size_t index_html_br_len = sizeof(index_html_br);
 "@
+
 $output | Out-File -Encoding ASCII -FilePath "index-html.h"
 
-Write-Host "index-html.h has been created successfully."
+Write-Host "index-html.h has been created successfully with Brotli-compressed data."

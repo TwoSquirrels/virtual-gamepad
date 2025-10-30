@@ -6,8 +6,8 @@ M5Atom によるマイコンカーでの Virtual Gamepad 用サンプルプロ�
 
 まず[このリポジトリをダウンロード](https://github.com/TwoSquirrels/virtual-gamepad/archive/refs/heads/main.zip)し、この `/example/m5atom-car/` ディレクトリ (フォルダー) を開いてください。
 
-これをコンパイルするためには、`./index-html.h` というファイルを用意してその中で `index_html` 定数に <https://twosquirrels.github.io/virtual-gamepad/> の HTML を `const char[]` 型で設定する必要があります。  
-この作業は Windows の場合は `./gen-index-html.ps1` を (エクスプローラーの場合はファイルを右クリックして「PowerShell で実行」を押して)、Mac 等 bash が動く環境の場合は `./gen-index-html.sh` を実行することで、**自動で HTML ファイルをダウンロードしヘッダファイルを生成できるため、それを使うことを推奨します**。
+これをコンパイルするためには、`./index-html.h` というファイルを用意してその中で `index_html_br` 定数に <https://twosquirrels.github.io/virtual-gamepad/index.html.br> の Brotli 圧縮された HTML を `const unsigned char[]` 型で設定する必要があります。  
+この作業は Windows の場合は `./gen-index-html.ps1` を (エクスプローラーの場合はファイルを右クリックして「PowerShell で実行」を押して)、Mac 等 bash が動く環境の場合は `./gen-index-html.sh` を実行することで、**自動で Brotli 圧縮された HTML ファイルをダウンロードしバイト配列としてヘッダファイルを生成できるため、それを使うことを推奨します**。
 
 また WiFi の ssid と password は `./m5atom-car.ino` に直接書き込んでも良いですが、`./env.h` を作りこのヘッダファイル内で以下のように定数を初期化することもできます。
 
@@ -23,7 +23,9 @@ const char password[] = "YOUR_PASSWORD";
 ## Structure
 
 `./SimpleHTTPServer.h` は ChatGPT で作った Arduino 用の簡易的な HTTP サーバーライブラリです。  
-`./m5atom-car.ino` ではジョイスティックのクエリからパラメータをパースし、`updateMotors` 関数でその値から左右のモーターの出力を設定しています。
+`./m5atom-car.ino` では Brotli 圧縮された HTML を配信し、ジョイスティックのクエリからパラメータをパースし、`updateMotors` 関数でその値から左右のモーターの出力を設定しています。
+
+Brotli 圧縮により、HTML データのサイズが約 30.9 KB から 9.1 KB に削減されました。ブラウザが自動的に解凍して表示します。
 
 > [!TIP]  
 > この例ではモーターの出力はかなり雑な計算式で設定しているので操作しにくいと思います。  
