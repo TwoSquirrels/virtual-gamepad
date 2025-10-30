@@ -9,7 +9,7 @@ curl -o index.html.br https://twosquirrels.github.io/virtual-gamepad/index.html.
     echo ''
     echo '// Brotli-compressed HTML data'
     echo 'const unsigned char index_html_br[] = {'
-    hexdump -v -e '16/1 "0x%02x, " "\n"' index.html.br | sed 's/, $//'
+    xxd -i < index.html.br | sed 's/^/  /' | sed '$ s/,$//'
     echo '};'
     echo ''
     echo "const size_t index_html_br_len = sizeof(index_html_br);"
