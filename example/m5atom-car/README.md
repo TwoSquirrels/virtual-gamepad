@@ -25,8 +25,6 @@ const char password[] = "YOUR_PASSWORD";
 `./SimpleHTTPServer.h` は ChatGPT で作った Arduino 用の簡易的な HTTP サーバーライブラリです。  
 `./m5atom-car.ino` では Brotli 圧縮された HTML を配信し、ジョイスティックのクエリからパラメータをパースし、`updateMotors` 関数でその値から左右のモーターの出力を設定しています。
 
-Brotli 圧縮により、HTML データのサイズが約 30.9 KB から 9.1 KB に削減されました。ブラウザが自動的に解凍して表示します。
-
 > [!TIP]  
 > この例ではモーターの出力はかなり雑な計算式で設定しているので操作しにくいと思います。  
 > そのため、自分で実験しながら操作しやすい関数を作ることをおすすめします。  

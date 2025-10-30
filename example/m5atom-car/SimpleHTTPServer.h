@@ -40,7 +40,6 @@ class SimpleHTTPServer {
         String requestType = "";
         String path = "";
         String queryString = "";
-        bool acceptsBrotli = false;
 
         while (client.connected()) {
           if (client.available()) {
@@ -49,9 +48,9 @@ class SimpleHTTPServer {
             if (c == '\n') {
               if (currentLine.length() == 0) {
                 if (requestType == "GET") {
-                  handleRequest(path, queryString, client, getHandlers, getHandlerCount, acceptsBrotli);
+                  handleRequest(path, queryString, client, getHandlers, getHandlerCount);
                 } else if (requestType == "POST") {
-                  handleRequest(path, queryString, client, postHandlers, postHandlerCount, acceptsBrotli);
+                  handleRequest(path, queryString, client, postHandlers, postHandlerCount);
                 }
                 break;
               } else {
@@ -65,10 +64,6 @@ class SimpleHTTPServer {
               } else if (currentLine.startsWith("POST ")) {
                 requestType = "POST";
                 path = extractPathAndQuery(currentLine, queryString);
-              } else if (currentLine.indexOf("Accept-Encoding:") >= 0) {
-                if (currentLine.indexOf("br") >= 0) {
-                  acceptsBrotli = true;
-                }
               }
             }
           }
@@ -118,7 +113,7 @@ class SimpleHTTPServer {
       }
     }
 
-    void handleRequest(const String& path, const String& queryString, WiFiClient& client, Handler* handlers, int handlerCount, bool acceptsBrotli) {
+    void handleRequest(const String& path, const String& queryString, WiFiClient& client, Handler* handlers, int handlerCount) {
       for (int i = 0; i < handlerCount; i++) {
         if (path == handlers[i].path) {
           handlers[i].handler(client, queryString);
