@@ -4,6 +4,7 @@
 curl -o index.html.br https://twosquirrels.github.io/virtual-gamepad/index.html.br
 
 # Convert binary data to C++ byte array
+# Note: xxd -i generates C-style array initialization with proper formatting
 {
     echo '#include <stddef.h>'
     echo ''
