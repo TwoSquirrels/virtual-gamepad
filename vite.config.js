@@ -8,6 +8,7 @@ export default {
   build: {
     outDir: "../dist",
     emptyOutDir: true,
+    minify: "terser",
   },
   plugins: [
     viteSingleFile(),
