@@ -38,6 +38,10 @@ void updateMotors(double angle, double force);
 
 SimpleHTTPServer server(ssid, password);
 
+// HTTP chunk size for streaming large responses
+// 512 bytes is appropriate for WiFi tethering scenarios with M5Atom
+#define HTTP_CHUNK_SIZE 512
+
 void handleRoot(WiFiClient& client, const String& query) {
   client.println("HTTP/1.1 200 OK");
   client.println("Content-Type: text/html");
@@ -47,9 +51,8 @@ void handleRoot(WiFiClient& client, const String& query) {
   client.println();
   
   // Send Brotli-compressed data in chunks
-  const size_t chunkSize = 512;
-  for (size_t i = 0; i < index_html_br_len; i += chunkSize) {
-    size_t len = min(chunkSize, index_html_br_len - i);
+  for (size_t i = 0; i < index_html_br_len; i += HTTP_CHUNK_SIZE) {
+    size_t len = min(HTTP_CHUNK_SIZE, index_html_br_len - i);
     client.write(&index_html_br[i], len);
   }
 }

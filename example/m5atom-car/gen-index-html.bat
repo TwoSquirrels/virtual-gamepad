@@ -19,6 +19,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& {
         $writer.WriteLine('const unsigned char index_html_br[] = {')
         
         # Process bytes in chunks to avoid memory issues
+        # Use 12 bytes per line for readability and to match shell script formatting
         $chunkSize = 12
         for ($i = 0; $i -lt $bytes.Length; $i += $chunkSize) {
             $end = [Math]::Min($i + $chunkSize, $bytes.Length)
