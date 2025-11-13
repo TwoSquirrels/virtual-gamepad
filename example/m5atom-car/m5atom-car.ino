@@ -52,7 +52,7 @@ void handleRoot(WiFiClient& client, const String& query) {
   
   // Send Brotli-compressed data in chunks
   for (size_t i = 0; i < index_html_br_len; i += HTTP_CHUNK_SIZE) {
-    size_t len = min(HTTP_CHUNK_SIZE, index_html_br_len - i);
+    size_t len = min((size_t)HTTP_CHUNK_SIZE, index_html_br_len - i);
     client.write(&index_html_br[i], len);
   }
 }
