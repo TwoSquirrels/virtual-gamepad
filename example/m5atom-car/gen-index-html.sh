@@ -1,10 +1,13 @@
 #!/bin/bash
 
-# Download the Brotli-compressed HTML
+# --- オプション 1: URLからダウンロード (デフォルト) ---
 curl -o index.html.br https://twosquirrels.github.io/virtual-gamepad/index.html.br
 
-# Convert binary data to C++ byte array
-# Note: xxd -i generates C-style array initialization with proper formatting
+# --- オプション 2: ローカルのビルド済みファイルを使用 ---
+# cp ../../dist/index.html.br ./index.html.br
+
+# バイナリデータをC++バイト配列に変換
+# 注: xxd -i は適切なフォーマットでCスタイルの配列初期化を生成します
 {
     echo '#include <stddef.h>'
     echo ''
